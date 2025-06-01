@@ -1,0 +1,55 @@
+import React, { useContext } from 'react'
+import { useForm } from 'react-hook-form'
+import {nanoid} from "nanoid"
+import { recipecontext } from '../context/RecipeContext'
+import { data } from 'react-router-dom'
+
+const Create = () => {
+  const {deta,setdata} = useContext(recipecontext)
+  const {register,handleSubmit}= useForm();
+
+  const SubmitHandler=(recipe)=> {
+    recipe.id=nanoid();
+
+    const copydata=[...data];
+    copydata.push(recipe);
+    setdata(copydata);
+    reset();
+  }
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit(SubmitHandler)}>
+        <input className='block border-b outline-0 p-2' {...register("file")} type="url" />
+
+        <small className='text-red-400'>This is how the error is shown</small>
+
+        <input className='block border-b outline-0 p-2' {...register("title")} type="text" placeholder='Recipe Name' />
+
+        <textarea className='block border-b outline-0 p-2' {...register("description")} placeholder='start from here' />
+
+        <textarea className='block border-b outline-0 p-2' {...register("ingredient")} placeholder='write ingredient seperated by comma' />
+
+        <textarea className='block border-b outline-0 p-2' {...register("instructions")} placeholder='write ingredient seperated by comma' />
+
+        <select className='block border-b outline-0 p-2 ' {...register("category")} >
+          <option className='text-gray-800' value="">North-indian</option>
+          <option className='text-gray-800' value="">South-indian</option>
+          <option className='text-gray-800' value="">Chinese</option>
+        </select>
+
+        <button className='mt-5 block bg-gray-700 px-4 py-2 rounded'>Save recipe</button>
+      </form>
+    </div>
+  )
+}
+
+export default Create
+
+
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/tanya0404/Recipe-Maker.git
+git push -u origin main
