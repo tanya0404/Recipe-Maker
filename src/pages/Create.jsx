@@ -5,15 +5,18 @@ import { recipecontext } from '../context/RecipeContext'
 import { data } from 'react-router-dom'
 
 const Create = () => {
-  const {deta,setdata} = useContext(recipecontext)
-  const {register,handleSubmit}= useForm();
+  const {data,setdata} = useContext(recipecontext)
+  const {register,handleSubmit,reset}= useForm();
 
-  const SubmitHandler=(recipe)=> {
+  const SubmitHandler =(recipe)=> {
+    // console.log(data)
     recipe.id=nanoid();
 
-    const copydata=[...data];
-    copydata.push(recipe);
-    setdata(copydata);
+    // const copydata=[...data];
+    // copydata.push(recipe);
+    // setdata(copydata);
+
+    setdata([...data,recipe])
     reset();
   }
 
@@ -25,6 +28,8 @@ const Create = () => {
         <small className='text-red-400'>This is how the error is shown</small>
 
         <input className='block border-b outline-0 p-2' {...register("title")} type="text" placeholder='Recipe Name' />
+
+        <input className='block border-b outline-0 p-2' {...register("chef")} type="text" placeholder='Chef Name' />
 
         <textarea className='block border-b outline-0 p-2' {...register("description")} placeholder='start from here' />
 
@@ -42,14 +47,12 @@ const Create = () => {
       </form>
     </div>
   )
+
+
+
+
 }
 
 export default Create
 
 
-git init
-git add README.md
-git commit -m "first commit"
-git branch -M main
-git remote add origin https://github.com/tanya0404/Recipe-Maker.git
-git push -u origin main
