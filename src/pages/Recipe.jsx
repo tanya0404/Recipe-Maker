@@ -1,8 +1,10 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { recipecontext } from "../context/RecipeContext";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+
+
 
 const Recipe = () => {
     const { id } = useParams();
@@ -32,25 +34,41 @@ const Recipe = () => {
         const copydata = [...data];
         copydata[index] = { ...copydata[index], ...recipe };
         setdata(copydata);
+        localStorage.setItem("recipes",JSON.stringify(copydata));
         toast.success("recipe updated!");
     };
 
     const deletehandler = () => {
         const filtererecipe = data.filter((r) => r.id != id);
         setdata(filtererecipe);
+        localStorage.setItem("recipes",JSON.stringify(filtererecipe));
         toast.success("recipe deleted!");
         navigate("/recipes");
     };
 
-    useEffect(()=>{
-        
-        getproduct();
+    const [favourite,setfavourite]= useState(JSON.parse(localStorage.getItem("fav"))|| []);
 
-        },[]);
+
+    const FavHandler =()=>{
+        let copyfav=[...favourite];
+        copyfav.push(recipe);
+        localStorage.setItem("fav",JSON.stringify(favourite.push(recipe)))|| [];
+    }
+    const UnFavHandler =()=>{
+        const filterfav=favourite.filter((f)=> f.id != recipe?.id);
+        setfavourite(filterfav)
+        localStorage.setItem("fav",JSON.stringify(filterfav));
+    }
+
+    
 
     return recipe ? (
         <div className="w-full flex p-2">
-            <div className="left w-1/2 p-2">
+            
+            <div className="relative left w-1/2 p-2">
+            {favourite.find((f)=> f.id==recipe?.id )?(
+                <i onClick={UnFavHandler} class="right-[5%] absolute text-3xl text-red-400 ri-heart-line"></i>):
+            <i onClick={FavHandler} class="right-[5%] absolute text-3xl text-red-400 ri-heart-fill"></i>}
                 <h1 className="text-5xl mb-3 ">{recipe?.title}</h1>
                 <img
                     className="w-full h-[40vh] object-cover"
@@ -66,10 +84,7 @@ const Recipe = () => {
                     {recipe?.category}
                 </span>
 
-                {/* <h1 className="mt-3 text-xl font-medium">Ingredient</h1>
-                <p>{recipe?.ingr}</p>
-                <h1 className="mt-3 text-xl font-medium">Instructions</h1>
-                <p>{recipe?.inst}</p> */}
+               
             </div>
 
             <form
