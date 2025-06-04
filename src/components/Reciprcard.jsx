@@ -5,7 +5,7 @@ const RecipeTemplate = (props) => {
     return props.recipe ? (
         <Link
             to={`/recipes/detail/${id}`}
-            className="w-[23vw] mr-5 mb-5 shadow overflow-hidden rounded"
+            className="transition transform hover:scale-105 duration-300 w-[23vw] mr-5 mb-5 shadow overflow-hidden rounded"
         >
             <img className="w-full h-[30vh] object-cover" src={image} alt="" />
             <h1 className="pl-3 text-3xl mt-3">{title}</h1>

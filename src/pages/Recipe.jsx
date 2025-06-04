@@ -20,9 +20,9 @@ const Recipe = () => {
             title: recipe?.title,
             image: recipe?.image,
             chef: recipe?.chef,
-            desc: recipe?.desc,
-            ingr: recipe?.ingr,
-            inst: recipe?.inst,
+            description: recipe?.description,
+            ingredient: recipe?.ingredient,
+            instructions: recipe?.instructions,
             category: recipe?.category,
         },
     });
@@ -42,6 +42,12 @@ const Recipe = () => {
         navigate("/recipes");
     };
 
+    useEffect(()=>{
+        
+        getproduct();
+
+        },[]);
+
     return recipe ? (
         <div className="w-full flex p-2">
             <div className="left w-1/2 p-2">
@@ -60,10 +66,10 @@ const Recipe = () => {
                     {recipe?.category}
                 </span>
 
-                <h1 className="mt-3 text-xl font-medium">Ingredients</h1>
+                {/* <h1 className="mt-3 text-xl font-medium">Ingredient</h1>
                 <p>{recipe?.ingr}</p>
                 <h1 className="mt-3 text-xl font-medium">Instructions</h1>
-                <p>{recipe?.inst}</p>
+                <p>{recipe?.inst}</p> */}
             </div>
 
             <form
