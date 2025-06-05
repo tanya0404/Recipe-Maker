@@ -60,15 +60,27 @@ const Recipe = () => {
     });
 
     const FavHandler = () => {
+        if (!recipe) return;
+        
+        // Check if recipe is already in favorites
+        if (favourite.some(fav => fav.id === recipe.id)) {
+            toast.info("Recipe is already in favorites!");
+            return;
+        }
+
         const updatedFav = [...favourite, recipe];
         setfavourite(updatedFav);
         localStorage.setItem("fav", JSON.stringify(updatedFav));
+        toast.success("Recipe added to favorites!");
     };
 
     const UnFavHandler = () => {
-        const filterfav = favourite.filter((f) => f.id != recipe?.id);
+        if (!recipe) return;
+        
+        const filterfav = favourite.filter((f) => f.id !== recipe.id);
         setfavourite(filterfav);
         localStorage.setItem("fav", JSON.stringify(filterfav));
+        toast.success("Recipe removed from favorites!");
     };
 
     return recipe ? (
@@ -141,11 +153,15 @@ const Recipe = () => {
                 ></textarea>
                 <select
                     {...register("category")}
-                    className="w-full block mb-3 outline-0 border-b p-2"
+                    className="w-full block mb-3 outline-0 border-b p-2 text-gray-400"
                 >
-                    <option value="breakfast">North-Indian</option>
-                    <option value="lunch">South-Indian</option>
-                    <option value="supper">Chinese</option>
+                    <option value="">Select category...</option>
+          <option value="North-Indian">North Indian</option>
+          <option value="South-Indian">South Indian</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Italian">Italian</option>
+          <option value="Dessert">Dessert</option>
+
                 </select>
                 <button
                     type="submit"

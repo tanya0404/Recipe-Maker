@@ -1,63 +1,103 @@
-import React, { useContext } from 'react'
-import { useForm } from 'react-hook-form'
-import {nanoid} from "nanoid"
-import { recipecontext } from '../context/RecipeContext'
-import { data } from 'react-router-dom'
-import {toast} from 'react-toastify';
-import { useNavigate } from 'react-router-dom'
+import React, { useContext } from 'react';
+import { useForm } from 'react-hook-form';
+import { nanoid } from 'nanoid';
+import { recipecontext } from '../context/RecipeContext';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const Create = () => {
-  const navigate= useNavigate();
-  const {data,setdata} = useContext(recipecontext)
-  const {register,handleSubmit,reset}= useForm();
+  const navigate = useNavigate();
+  const { data, setdata } = useContext(recipecontext);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
 
-  const SubmitHandler =(recipe)=> {
-    // console.log(data)
-    recipe.id=nanoid();
-
-    const copydata=[...data];
-    copydata.push(recipe);
+  const SubmitHandler = (recipe) => {
+    recipe.id = nanoid();
+    const copydata = [...data, recipe];
     setdata(copydata);
-localStorage.setItem("recipes",JSON.stringify(copydata));
-    // setdata([...data,recipe])
-    toast.success("New recipe created!")
+    localStorage.setItem('recipes', JSON.stringify(copydata));
+    toast.success('New recipe created!');
     reset();
-    navigate("/recipes")
-  }
+    navigate('/recipes');
+  };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit(SubmitHandler)}>
-        <input className='block border-b outline-0 p-2' {...register("image")} type="url" />
+    <div className="min-h-screen bg-[#fdfdfd] flex justify-center items-center px-4 py-8">
+      <form
+        onSubmit={handleSubmit(SubmitHandler)}
+        className="bg-white p-8 rounded-xl shadow-lg w-full max-w-2xl border border-gray-200"
+      >
+        <h2 className="text-3xl font-semibold mb-6 text-center text-gray-800">Create a New Recipe</h2>
 
-        <small className='text-red-400'>This is how the error is shown</small>
+        <input
+          {...register('image', { required: true })}
+          type="url"
+          placeholder="Enter recipe image URL..."
+          className="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-800 placeholder-gray-500"
+        />
+        {errors.image && <p className="text-sm text-red-500 mb-2">Image URL is required.</p>}
 
-        <input className='block border-b outline-0 p-2' {...register("title")} type="text" placeholder='Recipe Name' />
+        <input
+          {...register('title', { required: true })}
+          type="text"
+          placeholder="Recipe title..."
+          className="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-800 placeholder-gray-500"
+        />
+        {errors.title && <p className="text-sm text-red-500 mb-2">Title is required.</p>}
 
-        <input className='block border-b outline-0 p-2' {...register("chef")} type="text" placeholder='Chef Name' />
+        <input
+          {...register('chef')}
+          type="text"
+          placeholder="Chef's name (optional)"
+          className="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-800  placeholder-gray-500"
+        />
 
-        <textarea className='block border-b outline-0 p-2' {...register("description")} placeholder='start from here' />
+        <textarea
+          {...register('description')}
+          rows={3}
+          placeholder="Write a short description of the recipe..."
+          className="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-800  placeholder-gray-500"
+        />
 
-        <textarea className='block border-b outline-0 p-2' {...register("ingredient")} placeholder='write ingredient seperated by comma' />
+        <textarea
+          {...register('ingredient')}
+          rows={3}
+          placeholder="List ingredients, separated by commas..."
+          className="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-800  placeholder-gray-500"
+        />
 
-        <textarea className='block border-b outline-0 p-2' {...register("instructions")} placeholder='write ingredient seperated by comma' />
+        <textarea
+          {...register('instructions')}
+          rows={3}
+          placeholder="Write cooking instructions, separated by commas..."
+          className="w-full mb-4 p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-400 text-gray-800  placeholder-gray-500"
+        />
 
-        <select className='block border-b outline-0 p-2 ' {...register("category")} >
-          <option className='text-gray-800' value="">North-indian</option>
-          <option className='text-gray-800' value="">South-indian</option>
-          <option className='text-gray-800' value="">Chinese</option>
+        <select
+          {...register('category')}
+          className="w-full mb-6 p-3 border border-gray-300 rounded-lg bg-white text-gray-800 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+        >
+          <option value="">Select category...</option>
+          <option value="North-Indian">North Indian</option>
+          <option value="South-Indian">South Indian</option>
+          <option value="Chinese">Chinese</option>
+          <option value="Italian">Italian</option>
+          <option value="Dessert">Dessert</option>
         </select>
 
-        <button className='mt-5 block bg-gray-700 px-4 py-2 rounded'>Save recipe</button>
+        <button
+          type="submit"
+          className="w-full bg-indigo-500 text-white py-3 rounded-lg hover:bg-indigo-600 transition duration-200 font-medium"
+        >
+          Save Recipe
+        </button>
       </form>
     </div>
-  )
+  );
+};
 
-
-
-
-}
-
-export default Create
-
-
+export default Create;
