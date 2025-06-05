@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-const RecipeTemplate = (props) => {
+const Reciprcard = (props) => {
     const { id, image, chef, title, description } = props.recipe;
     return props.recipe ? (
         <Link
@@ -20,4 +20,4 @@ const RecipeTemplate = (props) => {
     );
 };
 
-export default RecipeTemplate;
+export default Reciprcard;
