@@ -10,14 +10,13 @@ const Fav = () => {
       const favFromStorage = JSON.parse(localStorage.getItem("fav")) || [];
       const recipesFromStorage = JSON.parse(localStorage.getItem("recipes")) || [];
 
-      // Filter only those favs that still exist in the recipes
+     
       const validFavs = favFromStorage.filter((fav) =>
         recipesFromStorage.some((recipe) => recipe.id === fav.id)
       );
 
       setFavourite(validFavs);
-
-      // Optional: Sync back valid favs to localStorage to remove deleted ones
+      
       localStorage.setItem("fav", JSON.stringify(validFavs));
     } catch (e) {
       console.error("Failed to load favourites:", e);

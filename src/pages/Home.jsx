@@ -47,7 +47,7 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Call to Action */}
+    
       <div className="text-center">
         <h2 className="text-3xl font-bold mb-4">Ready to Start Cooking?</h2>
         <p className="text-gray-300 mb-8">Join our community of food lovers and start sharing your recipes today!</p>
